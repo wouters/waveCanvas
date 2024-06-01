@@ -1,0 +1,80 @@
+<html>
+<head>
+    <title>Audio Player Demo Page</title>
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+    <h1>waveCanvas</h1>
+    <p>This demonstrates an audio player with playlist and waveform canvas.</p>
+    <h2>Single player</h2>
+
+    <audio
+        class="waveCanvas"
+        type="audio/mpeg"
+        src="concretesneaker-prettylady.mp3"
+        ></audio>
+
+    <h2>Single audio player with waveforms</h2>
+
+    <audio
+        class="waveCanvas"
+        type="audio/mpeg"
+        src="concretesneaker-letgetmoving.mp3"
+        data-waveform="concretesneaker-letgetmoving.json"
+        ></audio>
+
+    <h2>Playlist player with waveforms</h2>
+
+    <ul class="waveCanvas">
+        <li data-waveform="concretesneaker-inthemood.json">
+            <a href="concretesneaker-inthemood.mp3">Concrete Sneaker - <strong>In The Mood</strong></a>
+        </li>
+        <li data-waveform="concretesneaker-unreal.json">
+            <a href="concretesneaker-unreal.mp3">Concrete Sneaker - <strong>Unreal</strong></a>
+        </li>
+        <li data-waveform="concretesneaker-goodolddays.json">
+            <a href="concretesneaker-goodolddays.mp3">Concrete Sneaker - <strong>Good Old Day</strong></a>
+        </li>
+    </ul>
+
+    <h2>Playlist player with extra info</h2>
+
+    <div class="waveCanvas">
+        <ul class="playlist">
+            <li data-waveform="concretesneaker-tragiclove.json">
+                <span class="trackid">01</span>
+                <a href="concretesneaker-tragiclove.mp3">Concrete Sneaker - <strong>Tragic Love</strong></a>
+                <span class="light">original version</span>
+                <span class="tracktime">04:37</span>
+            </li>
+            <li data-waveform="concretesneaker-ineedabreak.json">
+                <span class="trackid">02</span>
+                <a href="concretesneaker-ineedabreak.mp3">Concrete Sneaker - <strong>I Need A Brake</strong></a>
+                <span class="light">original version</span>
+                <span class="tracktime">03:02</span>
+            </li>
+            <li data-waveform="concretesneaker-beforeigo.json">
+                <span class="trackid">03</span>
+                <a href="concretesneaker-beforeigo.mp3">Concrete Sneaker - <strong>Before I Go</strong></a>
+                <span class="light">original version</span>
+                <span class="tracktime">03:32</span>
+            </li>
+        </ul>
+    </div>
+
+<script src="../src/script.js"></script>
+
+<script>
+    // Initialize all audio players on the page
+    document.querySelectorAll('.waveCanvas').forEach(container => {
+        new AudioPlayer(
+            container, {
+                "color1" : '#94096e',
+                "color2" : '#00516c',
+                });
+        });
+</script>
+
+</body>
+</html>

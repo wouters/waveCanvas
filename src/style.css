@@ -1,0 +1,248 @@
+/* ========================================================================== */
+/* PLAYER */
+/* ========================================================================== */
+.waveCanvas {
+    }
+
+.waveCanvas audio {
+    display: none;
+    }
+
+
+.waveCanvas:not(.waveform) canvas.waveform{
+    display: none;
+    }
+
+
+/* ========================================================================== */
+/* PLAYER */
+/* ========================================================================== */
+/* CONTROLS CONTAINER FOR HORIZONTAL POSITIONING */
+.controls {
+    padding: 6px 10px;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 40px auto 60px;
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    align-items: center;
+    }
+
+.waveCanvas:not(.waveform) .controls {
+    background: #e8e8e8;
+    }
+
+.hasPlaylist .controls{
+    border-radius: 5px 5px 0 0;
+    }
+
+/* PLAY/PAUSE BUTTON */
+.play-pause {
+    background-color: transparent;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 32px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 35px;
+    width: 35px;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAtOTYwIDk2MCA5NjAiIHdpZHRoPSIyNHB4IiBmaWxsPSI0YzU0NjMiPjxwYXRoIGQ9Ik0zMjAtMjczdi00MTRxMC0xNyAxMi0yOC41dDI4LTExLjVxNSAwIDEwLjUgMS41VDM4MS03MjFsMzI2IDIwN3E5IDYgMTMuNSAxNXQ0LjUgMTlxMCAxMC00LjUgMTlUNzA3LTQ0NkwzODEtMjM5cS01IDMtMTAuNSA0LjVUMzYwLTIzM3EtMTYgMC0yOC0xMS41VDMyMC0yNzNaIi8+PC9zdmc+");
+    filter: invert(30%);
+    }
+
+.play-pause:hover{
+    background-color:#f8f8f8;
+    filter: invert(100%);
+    }
+
+.play-pause:hover{
+    background-color:#f8f8f8;
+    }
+
+.play-pause.playing {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAtOTYwIDk2MCA5NjAiIHdpZHRoPSIyNHB4IiBmaWxsPSI0YzU0NjMiPjxwYXRoIGQ9Ik02NDAtMjAwcS0zMyAwLTU2LjUtMjMuNVQ1NjAtMjgwdi00MDBxMC0zMyAyMy41LTU2LjVUNjQwLTc2MHEzMyAwIDU2LjUgMjMuNVQ3MjAtNjgwdjQwMHEwIDMzLTIzLjUgNTYuNVQ2NDAtMjAwWm0tMzIwIDBxLTMzIDAtNTYuNS0yMy41VDI0MC0yODB2LTQwMHEwLTMzIDIzLjUtNTYuNVQzMjAtNzYwcTMzIDAgNTYuNSAyMy41VDQwMC02ODB2NDAwcTAgMzMtMjMuNSA1Ni41VDMyMC0yMDBaIi8+PC9zdmc+");
+    filter: invert(0%);
+    }
+
+
+/* NO SEEK BAR FOR WAVEFORM */
+.waveCanvas.waveform .seek-bar,
+.waveCanvas.waveform .seek-bar-progress {
+    display: none;
+    }
+
+/* SEEKBAR CONTAINER */
+.seek-bar-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    }
+
+.waveCanvas:not(.waveform) .seek-bar-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: #caced5;
+    border-radius: 6px;
+    transform: translateY(-50%);
+    box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.1) inset;
+}
+
+
+.seek-bar {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    position: absolute;
+    top: -3px;
+    left: 0;
+    z-index: 1;
+    }
+
+.seek-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border: 1px solid #999;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    z-index: 3;
+    top:12px;
+    }
+
+.seek-bar:focus {
+    outline: none;
+    }
+
+.seek-bar::-webkit-slider-runnable-track {
+    height: 100%;
+    background: transparent;
+
+    }
+
+.seek-bar-progress {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 6px;
+    background: #000;
+    width: 0;
+    border-radius: 10px;
+    }
+
+/* TIME POSITION TOOLTIP */
+.tooltip {
+    position: absolute;
+    padding: 5px;
+    background: #333;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 12px;
+    display: none;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
+    top: -30px;
+    }
+
+/* REMAINING TIME DISPLAY */
+.remaining {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    text-align: center;
+    }
+
+
+/* ========================================================================== */
+/* PLAYLIST */
+/* ========================================================================== */
+/* .playlist{
+    margin-top:1px;
+    background: #e8e8e8;
+    padding: 6px 10px;
+    border-radius: 0 0 5px 5px;
+    }
+
+.waveCanvas.waveform .playlist{
+    border-radius: 5px;
+    } */
+
+ul.playlist{
+    padding:0;
+    list-style: none;
+    margin:0;
+
+    margin-top:1px;
+    background: #e8e8e8;
+    padding: 6px 10px;
+    border-radius: 0 0 5px 5px;
+    }
+
+ul.playlist li{
+    text-align: left;
+    margin: 3px 0;
+    border-radius: 3px;
+    background: #ddd;
+    padding: 6px 10px;
+    color: #000;
+    text-decoration: none;
+    cursor: default;
+    font-family: monospace;
+    font-size: 14px;
+    }
+
+.playlist li .trackid {
+    float: left;
+    width: 35px;
+    text-align: right;
+    margin: 0 10px 0 0;
+    padding: 0 10px 0 0;
+    border-right: 1px solid #333;
+    }
+
+.playlist li .tracktime {
+    float: right;
+    width: 45px;
+    text-align: right;
+    margin: 0 10px 0 0;
+    }
+
+ul.playlist li:hover{
+    background:#ccc;
+    }
+
+ul.playlist li.playing{
+    background:#bbb;
+    }
+
+ul.playlist li a{
+    color:#000;
+    text-decoration: none;
+    }
+
+ul.playlist li .light{
+    color:#999;
+    }
+
+ul.playlist li.playing,
+ul.playlist li.playing a,
+ul.playlist li.playing .artist,
+ul.playlist li.playing .trackid,
+ul.playlist li.playing .tracktime,
+ul.playlist li.playing .light{
+    color:#fff;
+    }
+
+
