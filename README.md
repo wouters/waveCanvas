@@ -6,7 +6,7 @@ A javascript audio player with options for waveforms and playlists
 # Usage
 
 
-Simple single player
+## Simple single player
 
 ```
 <audio
@@ -15,7 +15,8 @@ Simple single player
   src="concretesneaker-prettylady.mp3"></audio>
 ```
 
-Single audio player with waveforms
+## Single audio player with waveforms
+
 ```
 <audio
   class="waveCanvas"
@@ -24,10 +25,29 @@ Single audio player with waveforms
   data-waveform="concretesneaker-letgetmoving.json"></audio>
 ```
 
+## Playlist with waveforms
+
+```
+<ul class="waveCanvas">
+    <li data-waveform="concretesneaker-inthemood.json">
+        <a href="concretesneaker-inthemood.mp3">Concrete Sneaker - <strong>In The Mood</strong></a>
+    </li>
+    <li data-waveform="concretesneaker-unreal.json">
+        <a href="concretesneaker-unreal.mp3">Concrete Sneaker - <strong>Unreal</strong></a>
+    </li>
+    <li data-waveform="concretesneaker-goodolddays.json">
+        <a href="concretesneaker-goodolddays.mp3">Concrete Sneaker - <strong>Good Old Day</strong></a>
+    </li>
+</ul>
+```
+
+
+
+
 
 # Waveforms JSON
 
-Are not generated from the audio file but need to be pre-generated.
+Waveforms are not generated from the audio file but need to be pre-generated.
 This van be done using: https://github.com/bbc/audiowaveform
 
 for example: ```audiowaveform -i 'in the mood.mp3' -o 01.json --pixels-per-second 100 --bits 16```
