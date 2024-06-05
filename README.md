@@ -50,5 +50,12 @@ A javascript audio player with options for waveforms and playlists
 Waveforms are not generated from the audio file but need to be pre-generated.
 This van be done using: https://github.com/bbc/audiowaveform
 
-for example: ```audiowaveform -i 'in the mood.mp3' -o 01.json --pixels-per-second 100 --bits 16```
+for example: ```audiowaveform -i 'in the mood.mp3' -o 01.json --pixels-per-second 10 --bits 16```
 
+The total amount of "pixels" (values in the json) would idealy be about twice the amount pixels that the waveform has on screen.
+
+```witdh of the waveform * 2 / total length of the audio file (in seconds) = pixels per second```
+
+For example, if the waveform is max. 680px and the song is 3m32 (= 212sec) you can calculate the ```--pixels-per-second``` like this:
+
+```680 * 2 / 212 = 7``` (only integers, no decimals)
