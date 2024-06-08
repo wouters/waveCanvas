@@ -59,3 +59,5 @@ The total amount of "pixels" (values in the json) would idealy be about twice th
 For example, if the waveform is max. 680px and the song is 3m32 (= 212sec) you can calculate the ```--pixels-per-second``` like this:
 
 ```680 * 2 / 212 = 7``` (only integers, no decimals)
+
+The json file will then be about 26kb.
