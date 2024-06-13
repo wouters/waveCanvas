@@ -101,9 +101,10 @@
     height: 100%;
     background: transparent;
     position: absolute;
-    top: -3px;
+    top: -2px;
     left: 0;
     z-index: 1;
+    margin:0;
     }
 
 .seek-bar::-webkit-slider-thumb {

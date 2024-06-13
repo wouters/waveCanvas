@@ -159,7 +159,13 @@ class AudioPlayer
                 this.handleWaveformHoverEnd();
                 });
             }
-
+        // Use requestAnimationFrame for smoother updates
+        this.rafId = null;
+        const update = () => {
+            this.updateTime();
+            this.rafId = requestAnimationFrame(update);
+        };
+        update();
         }
 
     // --------------------------------
