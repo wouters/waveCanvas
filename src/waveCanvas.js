@@ -8,6 +8,11 @@ class AudioPlayer
         this.color1 = options.color1 || '#94096e';
         this.color2 = options.color2 || '#00516c';
         this.colorBG = options.colorBG || '#1c1a28';
+        
+        this.sliderheight = 32;
+        this.canvasHeight = options.canvasHeight || 128;
+        this.canvasWith = options.canvasWith || 2400;
+
 
         // if the element is an ul element, create a container div
         // and move the ul element inside it
@@ -29,6 +34,14 @@ class AudioPlayer
             this.container = document.createElement('div'); // create a div element
             this.container.classList.add('waveCanvas'); // add the waveCanvas class to the container
             el.classList.remove('waveCanvas'); // remove the waveCanvas class from the audio element
+
+
+            // get all classes from el
+            const classes = el.className.split(' ');
+            classes.forEach((className) => {
+                if(className != '') { this.container.classList.add(className); }
+                });
+
             el.parentNode.insertBefore(this.container, el); // insert the container before the audio element
             this.container.appendChild(el); // append the audio element to the container
             this.audio = el; // get the audio element
@@ -50,8 +63,8 @@ class AudioPlayer
         var controls = `
             <div class="controls">
             <button class="play-pause"></button>
-            <div class="seek-bar-container">
-                <canvas class="waveform" width="2400px" height="256px" style="width: 100%; height: 128px;"></canvas>
+            <div class="seek-bar-container" style="height:`+this.sliderheight+`px;">
+                <canvas class="waveform" width="`+this.canvasWith+`px" height="`+(this.canvasHeight * 2)+`px" style="width: 100%; height: `+this.canvasHeight+`px;"></canvas>
                 <input type="range" class="seek-bar" min="0" max="100" value="0">
                 <div class="seek-bar-progress"></div>
                 <div class="tooltip"></div>
@@ -93,6 +106,10 @@ class AudioPlayer
             if (!this.audio.src) {
                 const firstFile = firstTrack.querySelector('a').getAttribute('href');
                 this.audio.src = firstFile;
+
+                setTimeout(() => {
+                    this.audio.src = firstFile;
+                    }, 100);
                 }
 
             // no audio waveform set in the audio element
@@ -107,9 +124,22 @@ class AudioPlayer
 
         //
         if (this.audio.hasAttribute('data-waveform') && this.audio.getAttribute('data-waveform') !== ''){
+
+            // set height of the seek-bar-container to the height of the waveform
+            this.seekBarContainer.style.height = this.canvasHeight + 'px';
+
             this.container.classList.add('waveform');
             this.waveformFile = this.audio.getAttribute('data-waveform');
             this.plotWaveform(this.waveformFile);
+            }
+
+
+        // get audio file from audio element
+        // and reload audio file into audio element
+        // ugly fix to get the audio file to react nicely to scrubbing
+        if(this.audio.getAttribute('src')){
+            this.audioSrc = this.audio.getAttribute('src');
+            this.audio.src = this.audioSrc;
             }
 
         this.addEventListeners();
@@ -117,6 +147,7 @@ class AudioPlayer
 
     // --------------------------------
     addEventListeners() {
+
         this.playPauseButton.addEventListener('click', () => this.togglePlayPause());
         this.audio.addEventListener('timeupdate', () => this.updateTime());
         this.audio.addEventListener('loadedmetadata', () => this.updateDuration());
@@ -144,7 +175,6 @@ class AudioPlayer
                 const offsetX = Math.min(Math.max(0, event.clientX - rect.left), rect.width);
                 const progress = offsetX / rect.width;
                 this.audio.currentTime = this.audio.duration * progress;
-
                 this.stopAllPlayers();
                 this.audio.play();
                 });
@@ -159,12 +189,15 @@ class AudioPlayer
                 this.handleWaveformHoverEnd();
                 });
             }
+
+
         // Use requestAnimationFrame for smoother updates
         this.rafId = null;
         const update = () => {
             this.updateTime();
             this.rafId = requestAnimationFrame(update);
-        };
+            };
+
         update();
         }
 
@@ -176,7 +209,6 @@ class AudioPlayer
         this.currentHoverProgress = offsetX / rect.width;
         this.updateWaveform(this.audio.currentTime / this.audio.duration, this.currentHoverProgress);
     }
-
 
     // --------------------------------
     // Handle waveform hover end
@@ -203,19 +235,32 @@ class AudioPlayer
         // WAVEFORM
         this.waveformFile = track.getAttribute('data-waveform') || null;
         if(this.waveformFile){
+
+            // set height of the seek-bar-container to the height of the waveform
+            this.seekBarContainer.style.height = this.canvasHeight + 'px';
+
             this.audio.setAttribute('data-waveform', this.waveformFile);
             this.plotWaveform(this.waveformFile);
             this.container.classList.add('waveform');
             }
         else{
+            // set height of the seek-bar-container to the height of the waveform
+            this.seekBarContainer.style.height = this.sliderheight + 'px';
             this.container.classList.remove('waveform');
             }
 
         // CURRENT ITEM ADD CLASS
         this.playlistItems[index].classList.add('playing');
         this.audio.src = audioSrc;
+
         this.stopAllPlayers();
-        this.audio.play();
+
+        // ugly fix to get the audio file to react nicely to scrubbing
+        // and then play the audio
+        setTimeout(() => {
+            this.audio.src = audioSrc;
+            this.audio.play();
+            }, 100);
         }
 
     // --------------------------------
@@ -231,17 +276,8 @@ class AudioPlayer
     // --------------------------------
     handleAudioEnded() {
         if (this.playlistElement && this.playlistCurrent !== null && this.playlistCurrent < this.playlistItems.length - 1) {
-            this.playlistCurrent++;
-            const nextTrack = this.playlistItems[this.playlistCurrent];
-            const audioSrc = nextTrack.querySelector('a').getAttribute('href');
-            this.playlistItems.forEach(item => {
-                item.classList.remove('playing');
-                });
-            this.playlistItems[this.playlistCurrent].classList.add('playing');
-            this.audio.src = audioSrc;
-            this.stopAllPlayers();
-            this.audio.play();
-        }
+            this.clickPlaylist(this.playlistCurrent+1);
+            }
         else{
             this.playPauseButton.classList.remove('playing');
             this.audio.currentTime = 0;
@@ -498,7 +534,15 @@ class AudioPlayer
         ctx.strokeStyle = "rgba(255, 255, 255, 1)";
         ctx.lineWidth = 1;
         ctx.stroke();
-    }
+
+        // Draw horizontal line
+        ctx.beginPath();
+        ctx.moveTo(0, height / 2 +1);
+        ctx.lineTo(width, height / 2 +1);
+        ctx.strokeStyle = "rgba(0, 0, 0, .5)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        }
 
     // --------------------------------
 }

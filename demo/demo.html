@@ -1,7 +1,7 @@
 <html>
 <head>
     <title>Audio Player Demo Page</title>
-    <link rel="stylesheet" href="../src/style.css">
+    <link rel="stylesheet" href="../src/waveCanvas.css">
     <link rel="stylesheet" href="demo.css">
 </head>
 <body>
@@ -61,17 +61,37 @@
         </li>
     </ul>
 
-<script src="../src/script.js"></script>
+    <h2>With custom class ".slim"</h2>
+
+    <audio
+        class="waveCanvas slim"
+        type="audio/mpeg"
+        src="concretesneaker-letgetmoving.mp3"
+        data-waveform="concretesneaker-letgetmoving.json"
+        ></audio>
+
+<script src="../src/waveCanvas.js"></script>
 
 <script>
     // Initialize all audio players on the page
-    document.querySelectorAll('.waveCanvas').forEach(container => {
+    // except the one with class "slim"
+    document.querySelectorAll('.waveCanvas:not(.slim)').forEach(container => {
         new AudioPlayer(
             container, {
                 "color1" : '#94096e',
                 "color2" : '#00516c',
-                });
-        });
+            });
+    });
+
+    // Initialize the slim audio player
+    document.querySelectorAll('.waveCanvas.slim').forEach(container => {
+        new AudioPlayer(
+            container, {
+                "color1" : '#F50',
+                "color2" : '#F94',
+                "canvasHeight" : 48,
+            });
+    });
 </script>
 
 </body>

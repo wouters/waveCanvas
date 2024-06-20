@@ -1,12 +1,13 @@
+/* ========================================================================== */
 body{
     font-family: Arial, sans-serif;
     font-size: 14px;
     padding: 100px 0;
-
     width: 800px;
     margin: 0 auto;
     }
 
+/* ========================================================================== */
 h1{
     font-size: 24px;
     margin: 0 0 20px;
@@ -30,3 +31,18 @@ h2:after{
     margin: 10px 0;
     }
 
+/* ========================================================================== */
+/* CUSTOM CLASS */
+ .waveCanvas.slim{
+    padding-left: 5px;
+    }
+
+.waveCanvas.slim .controls{
+    border:1px dotted #999;
+    padding:0px 5px;
+    }
+
+.waveCanvas.slim .seek-bar-container{
+    border-left:1px dotted #999;
+    padding-left:5px;
+    }
