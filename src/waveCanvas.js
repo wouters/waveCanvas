@@ -13,6 +13,7 @@ class AudioPlayer
         this.canvasHeight = options.canvasHeight || 128;
         this.canvasWith = options.canvasWith || 2400;
 
+        this.autoPlay = options.autoPlay || false;
 
         // if the element is an ul element, create a container div
         // and move the ul element inside it
@@ -143,6 +144,12 @@ class AudioPlayer
             }
 
         this.addEventListeners();
+
+        // autioplay
+        if(this.autoPlay){
+            this.audio.play();
+            }
+        
         }
 
     // --------------------------------
@@ -286,7 +293,7 @@ class AudioPlayer
 
     // --------------------------------
     togglePlayPause() {
-        if (this.audio.readyState === 4) {
+        // if (this.audio.readyState === 4) {
             if (this.audio.paused) {
                 this.stopAllPlayers();
                 this.audio.play();
@@ -294,7 +301,7 @@ class AudioPlayer
             else {
                 this.audio.pause();
                 }
-            }
+            // }
         }
 
     // --------------------------------
